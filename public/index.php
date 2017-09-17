@@ -14,7 +14,9 @@ include('app.php');
 ?>
 
 <div class="container">
+    <h1>PHP</h1>
     <?php run(); ?>
+    <h1>Javascript</h1>
 </div>
 
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>

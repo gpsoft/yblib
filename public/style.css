@@ -1,5 +1,12 @@
-h2 {
+h1, h2 {
     margin-top: 60px;
+}
+
+h1 {
+    font-size: 30px;
+    border-left: solid 16px #336699;
+    padding: 4px 4px 4px 8px;
+    background-color: #e2f2ff;
 }
 
 pre {
