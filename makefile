@@ -1,17 +1,26 @@
 PHP_IMAGE := php:7.1.9-apache
-DOCKER_OPT := run -it --rm -v$(shell pwd)/public:/var/www/html
+CONT_NAME := yblib
+DOCKER_OPT := -it --rm -v$(shell pwd)/public:/var/www/html --name ${CONT_NAME}
 
 all:
 	@echo Usage:
 	@echo make run
 	@echo make shell
+	@echo make tap
+	@echo make stop
 
-.PHONY: run shell
+.PHONY: run shell tap stop
 run:
-	@docker ${DOCKER_OPT} -d -p8888:80 ${PHP_IMAGE}
+	@docker run ${DOCKER_OPT} -d -p8888:80 ${PHP_IMAGE}
 
 shell:
-	@docker ${DOCKER_OPT} ${PHP_IMAGE} bash
+	@docker run ${DOCKER_OPT} ${PHP_IMAGE} bash
+
+tap:
+	@docker exec -it ${CONT_NAME} bash
+
+stop:
+	@docker stop ${CONT_NAME}
 
 .SILENT:
 %:
