@@ -37,7 +37,7 @@ function run($parent) {
     let withCollapse = function(caption, f){
         h(caption, no);
         let $wrapper = $('<div>')
-            // .addClass('collapse')
+            .addClass('collapse')
             .attr('id', 'jsChap'+no)
             .appendTo($parent);
         f($wrapper);
