@@ -1,6 +1,6 @@
 PHP_IMAGE := php:7.1.9-apache
 CONT_NAME := yblib
-DOCKER_OPT := -it --rm -v$(shell pwd)/public:/var/www/html --name ${CONT_NAME}
+DOCKER_OPT := -it --rm -v$(shell pwd)/src:/var/www/html --name ${CONT_NAME}
 
 all:
 	@echo Usage:
