@@ -57,6 +57,7 @@ function u_encA2S($a, $sepa=',') {
 }
 function u_enc2S() {
     $args = func_get_args();
+    if ( u_empty($args) ) return '';
     $sepa = array_pop($args);
     return u_encA2S($args, $sepa);
 }

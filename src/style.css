@@ -9,6 +9,10 @@ h1 {
     background-color: #e2f2ff;
 }
 
+h2.collapse-bar {
+    cursor: pointer;
+}
+
 h2.collapse-bar[aria-expanded="true"] i.fa-plus-square-o {
     display: none;
 }
