@@ -9,7 +9,8 @@
 <body>
 
 <?php
-include('util.php');
+include_once('util.php');
+include_once('sql.php');
 include('app.php');
 ?>
 

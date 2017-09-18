@@ -34,6 +34,9 @@ function in_table($f) {
 }
 
 function run() {
+
+    assert_options(ASSERT_BAIL, 1);
+
     h('空っぽチェック');
     in_table(function(){
         eval_print('u_empty(null)');
@@ -129,13 +132,14 @@ EOS;
     in_table(function(){
         eval_print("u_encA2S([1,2,3])");
         eval_print("u_encA2S([1,2,3], '|')");
+        eval_print("u_enc2S(1, 2, 3, '-')");
         eval_print("u_decS2A('1,2,3')");
         eval_print("u_decS2A('')");
         eval_print("u_decS2A('huh?')");
         eval_print("u_decS2A(',huh?,')");
     });
 
-    h('日時(正規形)');
+    h('日時(正規化)');
     in_table(function(){
         eval_print("u_date('hello')");
         eval_print("u_date('1991')");
@@ -164,6 +168,19 @@ EOS;
         eval_print("u_datetime('hello')");
         eval_print("u_datetime('2017/09/08 12:34:56')");
         eval_print("u_datetime('20170908123456')");
+        eval_print("u_dtnormalize('2017/09/08 12:34:56', 'date')");
+        eval_print("u_dtnormalize('2017/09/08 12:34:56', 'time4')");
+        eval_print("u_dtnormalize('2017/09/08 12:34:56', 'time6')");
+        eval_print("u_dtnormalize('2017/09/08 12:34:56', 'datetime')");
+    });
+
+    h('日時(比較)');
+    in_table(function(){
+        eval_print("u_datecmp('2017/09/08', '2017/09/09')");
+        eval_print("u_time4cmp('1234', '12:00')");
+        eval_print("u_time6cmp('123456', '12:34:56')");
+        eval_print("u_datetimecmp('2017/09/08 12:34:56', '2017/09/09 12:34:56')");
+        eval_print("u_time4cmp('2017/09/08 12:34:56', '2017/09/09 12:34:56')");
     });
 
     h('パディング');
@@ -171,5 +188,48 @@ EOS;
         eval_print("u_padsp('hello', 10)");
         eval_print("u_pad('hello', -10, '_')");
         eval_print("u_pad0('64', 4)");
+    });
+
+    h('SQL式');
+    in_table(function(){
+        eval_print("sql_logic('code', '!=', 'active', 'str')");
+        eval_print("sql_logic('code', 'IS NOT', null)");
+        eval_print("sql_logic('kbn', '>=', 1, 'num')");
+        eval_print("sql_logic('name', 'LIKE', 'hoge', 'left')");
+        eval_print("sql_logic('name', 'LIKE', 'hoge', 'right')");
+        eval_print("sql_logic('name', 'LIKE', 'hoge', 'partial')");
+        eval_print("sql_logic('code', 'IN', ['active','inactive'], 'strset')");
+        eval_print("sql_logic('kbn', 'IN', [1,2,3], 'numset')");
+        eval_print("sql_logic('updated', '=', '2017/09/08 12:34:56', 'datetime')");
+        eval_print("sql_logic('reserved', '=', '2017/09/08 12:34:56', 'date')");
+        eval_print("sql_logic('hhmm', '=', '2017/09/08 12:34:56', 'time4')");
+        eval_print("sql_logic('hhmmss', '=', '2017/09/08 12:34:56', 'time6')");
+    });
+    in_table(function(){
+        eval_print("sql_inrange('updated', '2017/09/08', '2017/09/30', 'date')");
+        eval_print("sql_exrange('updated', '2017/09/08', '2017/09/30', 'date')");
+        eval_print("sql_inrange('updated', '2017/09/08', '2017/09/30', 'datetime')");
+        eval_print("sql_exrange('updated', '2017/09/08', '2017/10/01', 'datetime')");
+        eval_print("sql_inrange('updated', '2017/09/08 10:00:00'"
+            .", '2017/09/30 23:59:59', 'datetime')");
+        eval_print("sql_exrange('updated', '2017/09/08 10:00:00'"
+            .", '2017/10/01 00:00:00', 'datetime')");
+        eval_print("sql_exrange('updated', '10:00:00', '12:34:56', 'time4')");
+        eval_print("sql_exrange('updated', '10:00:00', '13:00:00', 'time6')");
+        eval_print("sql_inrange('reserved', 'begin_dt', 'end_dt')");
+    });
+    in_table(function(){
+        eval_print("sql_overwrap('sta', 'end', '2017/09/08', '2017/09/30', 'date')");
+        eval_print("sql_overwrap('sta', 'end', '2017/09/08', '2017/09/30', 'datetime')");
+        eval_print("sql_overwrap('sta', 'end', '10:00:00', '13:00:00', 'time4')");
+        eval_print("sql_overwrap('sta', 'end', '10:00:00', '13:00:00', 'time6')");
+    });
+    in_table(function(){
+        eval_print("sql_lgappend('', 'kbn=1')");
+        eval_print('sql_lgappend("(kbn=1)", "code!=\'active\'")');
+        eval_print('sql_lgappend("(kbn=1)", "code!=\'active\'", "OR")');
+        eval_print('sql_lgjoin("A", "B", "C")');
+        eval_print('sql_lgjoin("X", "Y", "Z", "OR")');
+        eval_print('sql_lgjoin(["A", ["B1", "B2"], "C", "OR"], ["X", "Y", "Z", "OR"])');
     });
 }

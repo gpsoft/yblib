@@ -44,6 +44,7 @@ function u_wrap($s, $w) {
 }
 function u_wrapsq($s) { return u_wrap($s, "'"); }
 function u_wrapdq($s) { return u_wrap($s, '"'); }
+function u_wrappar($s) { return u_wrap($s, '('); }
 function u_wraptag($s, $t) {
     return '<'.$t.'>'.$s.'</'.u_at(explode(' ', $t), 0).'>';
 }
@@ -53,6 +54,11 @@ function u_decS2A($s, $sepa=',') {
 }
 function u_encA2S($a, $sepa=',') {
     return implode($sepa, $a);
+}
+function u_enc2S() {
+    $args = func_get_args();
+    $sepa = array_pop($args);
+    return u_encA2S($args, $sepa);
 }
 
 function u_pad($s, $len, $pad) {
@@ -83,6 +89,18 @@ function u_datetime($s) {
     if ( strlen($d) < 14 ) return '';
     return substr($d, 0, 14);
 }
+function u_dtnormalize($s, $type) {
+    if ( $type == 'date' ) return u_date($s);
+    if ( $type == 'time4' ) return u_time4($s);
+    if ( $type == 'time6' ) return u_time6($s);
+    if ( $type == 'datetime' ) return u_datetime($s);
+    return $s;
+}
+function u_isdttype($type) {
+    return in_array($type, array(
+        'date', 'time4', 'time6', 'datetime'
+    ));
+}
 function u_datey($s) { return u_coalesce(substr(u_date($s), 0, 4), ''); }
 function u_datem($s) { return u_coalesce(substr(u_date($s), 4, 2), ''); }
 function u_dated($s) { return u_coalesce(substr(u_date($s), 6, 2), ''); }
@@ -91,3 +109,11 @@ function u_time4($s) { return u_time($s, false); }
 function u_timeh($s) { return u_coalesce(substr(u_time($s), 0, 2), ''); }
 function u_timem($s) { return u_coalesce(substr(u_time($s), 2, 2), ''); }
 function u_times($s) { return u_coalesce(substr(u_time($s), 4, 2), ''); }
+
+function l_u_dtcmp($a, $b, $type) {
+    return u_dtnormalize($a, $type) - u_dtnormalize($b, $type);
+}
+function u_datecmp($a, $b) { return l_u_dtcmp($a, $b, 'date'); }
+function u_time4cmp($a, $b) { return l_u_dtcmp($a, $b, 'time4'); }
+function u_time6cmp($a, $b) { return l_u_dtcmp($a, $b, 'time6'); }
+function u_datetimecmp($a, $b) { return l_u_dtcmp($a, $b, 'datetime'); }
