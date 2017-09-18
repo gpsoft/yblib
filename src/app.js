@@ -72,33 +72,57 @@ function run($parent) {
         });
     });
 
-    withCollapse('', function($wrapper){
+    withCollapse('日時(正規化)', function($wrapper){
         inTable($wrapper, function($t){
+            evalPrint($t, "js_u_date('hello')");
+            evalPrint($t, "js_u_date('1991')");
+            evalPrint($t, "js_u_date('20170908')");
+            evalPrint($t, "js_u_date('20170908123456')");
+            evalPrint($t, "js_u_date('2017/09/08')");
+            evalPrint($t, "js_u_datey('2017/09/08')");
+            evalPrint($t, "js_u_datem('20170908')");
+            evalPrint($t, "js_u_dated('20170908')");
+            evalPrint($t, "js_u_dated('201709')");
+        });
+        inTable($wrapper, function($t){
+            evalPrint($t, "js_u_time4('hello')");
+            evalPrint($t, "js_u_time4('1234')");
+            evalPrint($t, "js_u_time4('12:34')");
+            evalPrint($t, "js_u_time4('20170908123456')");
+            evalPrint($t, "js_u_time6('1234')");
+            evalPrint($t, "js_u_time6('12:34')");
+            evalPrint($t, "js_u_time6('12:34:56')");
+            evalPrint($t, "js_u_time6('20170908123456')");
+            evalPrint($t, "js_u_timeh('12:34:56')");
+            evalPrint($t, "js_u_timem('12:34:56')");
+            evalPrint($t, "js_u_times('12:34:56')");
+        });
+        inTable($wrapper, function($t){
+            evalPrint($t, "js_u_datetime('hello')");
+            evalPrint($t, "js_u_datetime('2017/09/08 12:34:56')");
+            evalPrint($t, "js_u_datetime('20170908123456')");
+            evalPrint($t, "js_u_dtnormalize('2017/09/08 12:34:56', 'date')");
+            evalPrint($t, "js_u_dtnormalize('2017/09/08 12:34:56', 'time4')");
+            evalPrint($t, "js_u_dtnormalize('2017/09/08 12:34:56', 'time6')");
+            evalPrint($t, "js_u_dtnormalize('2017/09/08 12:34:56', 'datetime')");
         });
     });
 
-    withCollapse('', function($wrapper){
+    withCollapse('日時(比較)', function($wrapper){
         inTable($wrapper, function($t){
+            evalPrint($t, "js_u_datecmp('2017/09/08', '2017/09/09')");
+            evalPrint($t, "js_u_time4cmp('1234', '12:00')");
+            evalPrint($t, "js_u_time6cmp('123456', '12:34:56')");
+            evalPrint($t, "js_u_datetimecmp('2017/09/08 12:34:56', '2017/09/09 12:34:56')");
+            evalPrint($t, "js_u_time4cmp('2017/09/08 12:34:56', '2017/09/09 12:34:56')");
         });
     });
 
-    withCollapse('', function($wrapper){
+    withCollapse('パディング', function($wrapper){
         inTable($wrapper, function($t){
-        });
-    });
-
-    withCollapse('', function($wrapper){
-        inTable($wrapper, function($t){
-        });
-    });
-
-    withCollapse('', function($wrapper){
-        inTable($wrapper, function($t){
-        });
-    });
-
-    withCollapse('', function($wrapper){
-        inTable($wrapper, function($t){
+            evalPrint($t, "js_u_padsp('hello', 10)");
+            evalPrint($t, "js_u_pad('hello', -10, '_')");
+            evalPrint($t, "js_u_pad0('64', 4)");
         });
     });
 }

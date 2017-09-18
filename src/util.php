@@ -86,9 +86,9 @@ function u_time($s, $sec=true) {
     return substr($t, 0, $sec?6:4);
 }
 function u_datetime($s) {
-    $d = preg_replace('/[^0-9]/', '', $s);
-    if ( strlen($d) < 14 ) return '';
-    return substr($d, 0, 14);
+    $dt = preg_replace('/[^0-9]/', '', $s);
+    if ( strlen($dt) < 14 ) return '';
+    return substr($dt, 0, 14);
 }
 function u_dtnormalize($s, $type) {
     if ( $type == 'date' ) return u_date($s);
