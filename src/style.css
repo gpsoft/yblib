@@ -1,5 +1,5 @@
 h1, h2 {
-    margin-top: 60px;
+    margin-top: 40px;
 }
 
 h1 {
@@ -7,6 +7,14 @@ h1 {
     border-left: solid 16px #336699;
     padding: 4px 4px 4px 8px;
     background-color: #e2f2ff;
+}
+
+h2.collapse-bar[aria-expanded="true"] i.fa-plus-square-o {
+    display: none;
+}
+
+h2.collapse-bar.collapsed i.fa-minus-square-o {
+    display: none;
 }
 
 pre {
